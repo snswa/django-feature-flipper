@@ -35,12 +35,17 @@ class FeatureNode(template.Node):
         self.nodelist_disabled = nodelist_disabled
 
     def render(self, context):
-
-        try:
-            feature = Feature.objects.get(name=self.feature)
-            enabled = feature.enabled
-        except Feature.DoesNotExist:
-            enabled = False
+        # Look in template context first, to see if feature is enabled already.
+        enabled = context['feature']._cache.get(self.feature, False) # XXX
+        # If it's not enabled, look in the database.
+        # (This is likely to be handled by a series of callbacks in the future
+        # to handle different feature sources.)
+        if not enabled:
+            try:
+                feature = Feature.objects.get(name=self.feature)
+                enabled = feature.enabled
+            except Feature.DoesNotExist:
+                enabled = False
 
         if enabled:
             return self.nodelist_enabled.render(context)
