@@ -19,7 +19,7 @@ class FeaturesMiddleware(object):
 
         features = dict(self.features_from_database())
 
-        if request.user.has_perm('can_flip_with_url'):
+        if request.user.has_perm('featureflipper.can_flip_with_url'):
 
             if 'session_clear_features' in request.GET:
                 self.clear_features_from_session(request.session)
