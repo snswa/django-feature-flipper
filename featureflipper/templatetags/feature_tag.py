@@ -36,7 +36,10 @@ class FeatureNode(template.Node):
 
     def render(self, context):
         # Look in template context first, to see if feature is enabled already.
-        enabled = context['feature']._cache.get(self.feature, False) # XXX
+        enabled = False
+        ctx_feature = context.get('feature')
+        if ctx_feature:
+            enabled = ctx_feature._cache.get(self.feature, False) # XXX
         # If it's not enabled, look in the database.
         # (This is likely to be handled by a series of callbacks in the future
         # to handle different feature sources.)
