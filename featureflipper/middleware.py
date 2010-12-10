@@ -7,13 +7,13 @@ import re
 class FeaturesMiddleware(object):
 
     # Matches per-request flipper in URL
-    _REQUEST_ENABLE = re.compile("^enable_(?P<feature>[a-zA-Z_]+)$")
+    _REQUEST_ENABLE = re.compile("^enable_(?P<feature>[\w\-_]+)$")
 
     # Matches per-session flipper in URL
-    _SESSION_ENABLE = re.compile("^session_enable_(?P<feature>[a-zA-Z_]+)$")
+    _SESSION_ENABLE = re.compile("^session_enable_(?P<feature>[\w\-_]+)$")
 
     # Mathes flipper we put in the session
-    _FEATURE_STATUS = re.compile("^feature_status_(?P<feature>[a-zA-Z_]+)$")
+    _FEATURE_STATUS = re.compile("^feature_status_(?P<feature>[\w\-_]+)$")
 
     def process_request(self, request):
 
